@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Card, CardContent } from "../ui/Card";
 import { Button } from "../ui/Button";
@@ -14,9 +14,9 @@ export default function Carousel({
 }: CarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const nextSlide = () => {
+  const nextSlide = useCallback(() => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-  };
+  }, [images.length]);
 
   const prevSlide = () => {
     setCurrentIndex(
@@ -29,7 +29,7 @@ export default function Carousel({
       const intervalId = setInterval(nextSlide, autoSlideInterval);
       return () => clearInterval(intervalId);
     }
-  }, [autoSlideInterval, images.length]);
+  }, [autoSlideInterval, images.length, nextSlide]);
 
   if (!images || images.length === 0) {
     return (
@@ -62,7 +62,7 @@ export default function Carousel({
               <Button
                 variant="outline"
                 size="icon"
-                className="rounded-full bg-mauve-1/70 hover:bg-mauve-2/90"
+                className="rounded-full bg-mauve1/70 hover:bg-mauve2/90"
                 onClick={prevSlide}
               >
                 <ChevronLeft className="h-4 w-4" />
@@ -71,7 +71,7 @@ export default function Carousel({
               <Button
                 variant="outline"
                 size="icon"
-                className="rounded-full bg-mauve-1/70 hover:bg-mauve-2/90"
+                className="rounded-full bg-mauve1/70 hover:bg-mauve2/90"
                 onClick={nextSlide}
               >
                 <ChevronRight className="h-4 w-4" />
@@ -86,7 +86,7 @@ export default function Carousel({
                     variant="outline"
                     size="sm"
                     className={`w-2 h-2 rounded-full p-0 ${
-                      index === currentIndex ? "bg-mauve-1" : "bg-mauve-1/50"
+                      index === currentIndex ? "bg-mauve1" : "bg-mauve1/50"
                     }`}
                     onClick={() => setCurrentIndex(index)}
                   >
