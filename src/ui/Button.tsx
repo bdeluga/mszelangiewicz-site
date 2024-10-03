@@ -1,4 +1,5 @@
 import type { ButtonHTMLAttributes } from "react";
+import cn from "../lib/cn";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "default" | "outline";
@@ -28,7 +29,9 @@ export function Button({
     icon: "h-10 w-10",
   };
 
-  const classes = `${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`;
+  const classes = cn(
+    `${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`
+  );
 
   return (
     <button className={classes} {...props}>
